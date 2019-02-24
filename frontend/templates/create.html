@@ -1,0 +1,130 @@
+{% extends "basic.html" %}
+
+{% block navbar %} 
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "browse" %}"><h5>Browse</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "post" %}"><h5>Post a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "request" %}"><h5>Request a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "about" %}"><h5>About us</h5></a></li>
+  {% if user.is_authenticated %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "inbox" %}"><h5 id="inbox">Inbox</h5></a></li>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class= "row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h4>Create your public profile!</h4>
+          </div>
+          <div class="card-body">{% load static %}
+            <div class="row">
+              <div class="col-md-4 mb-2">
+                <h5>{{ user.first_name }} {{ user.last_name }}</h5>
+                <h6 class="mb-3">{{ user.email }}</h6>
+                <img class="shadow mb-3" style="border-radius: 50%; width: 200px; height: auto;" alt="{{ user.username }}" src="{% static "pics/" %}{{ user.profile.picture }}">
+              </div>
+              <div class="col-md-8">
+                <form action="/profiles/edit/" method="post">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <label class="mt-2 mr-2" for="{{ form.hometown.id_for_label }}">Hometown:</label>
+                      </div>
+                      <div class="col-lg-9">
+                        {{ form.hometown }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <label for="{{ form.major.id_for_label }}" class="mr-2 mt-2">Major:</label>
+                      </div>
+                      <div class="col-lg-9">
+                        {{ form.major }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <label for="{{ form.phone_number.id_for_label }}" class="mr-2 mt-2">Phone Number:</label>
+                      </div>
+                      <div class="col-lg-9">
+                        {{ form.phone_number }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <label for="{{ form.venmo.id_for_label }}" class="mr-2 mt-2">Venmo:</label>
+                      </div>
+                      <div class="col-lg-9">
+                        {{ form.venmo }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <label for="{{ form.affiliation.id_for_label }}" class="mr-2 mt-2">Affiliation:</label>
+                      </div>
+                      <div class="col-lg-9">
+                        {{ form.affiliation }}
+                      </div>
+                    </div>
+                  </div>
+                  <div id="org" style="display: none;" class="form-group">
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <label id="org_label" for="{{ form.org_email.id_for_label }}" class="mr-2 mt-2">email for verification:</label>
+                      </div>
+                      <div class="col-lg-9">
+                        {{ form.org_email }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <label for="{{ form.vehicle.id_for_label }}" class="mr-2 mt-2">Car (if you're a driver):</label>
+                      </div>
+                      <div class="col-lg-3">
+                        {{ form.car_make }}
+                      </div>
+                      <div class="col-lg-3">
+                        {{ form.car_model }}
+                      </div>
+                      <div class="col-lg-3">
+                        {{ form.plate }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group mr-2 mb-3">
+                    <label for="{{ form.bio.id_for_label">Tell us something about yourself:</label>
+                    {{ form.bio }}
+                  </div>
+                  <div class="form-group">
+                    <input type="checkbox" id="agree" name="agree" required>
+                    <label for="agree">
+                      I have read and I agree to CarTrek's
+                      <a href="{% url "terms" %}">terms of service</a> and
+                      <a href="{% url "privacy" %}">privacy policy</a>.
+                    </label>
+                  </div>
+                  <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Finish</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

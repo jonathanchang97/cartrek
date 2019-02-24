@@ -1,0 +1,93 @@
+{% extends "basic.html" %}
+
+{% block navbar %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "browse" %}"><h5>Browse</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "post" %}"><h5>Post a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "request" %}"><h5>Request a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "about" %}"><h5>About us</h5></a></li>
+  {% if user.is_authenticated %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "inbox" %}"><h5 id="inbox">Inbox</h5></a></li>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-5">
+        <h4>{{ t.from_city }}, {{ t.from_state }} &rarr; {{ t.to_city }}, {{ t.to_state }}</h4>
+        {% if user == t.driver %}
+        <a href="">Delete this Trek</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4 text-center">{% load static %}
+                <a href="{% url "profile" user=t.driver %}"><img style="height: 100px; width: auto; border-radius: 50%;" alt="{{ t.driver.username }}" src="{% static "pics/" %}{{ t.driver.profile.picture }}"></a>
+              </div>
+              <div class="col-6">
+                <p>{{ t.date }}<br>
+                {{ t.from_city }}, {{ t.from_state }} &rarr; {{ t.to_city}}, {{ t.to_state }}<br>
+                Departing: {{ t.departure_time }}</p>
+              </div>
+              <div class="col-2 text-center pr-0 pl-0">
+                <p>{{t.seats_taken }} / {{ t.seats }}</p>
+                <p>${{ t.price }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 text-center">
+                <p class="small"><a href="{% url "profile" user=t.driver %}">{{ t.driver.first_name }}</a><br>
+                {{ t.driver.profile.affiliation }}</p>
+              </div>
+              <div class="col-8" style="height: 100px;">
+                <p>{{ t.note }}</p>
+              </div>
+            </div>
+            <div class="row mb-2" style="height: 50px;">
+              <div class="col mb-1">
+                <span>Other passengers:</span>
+              {% for p in t.passengers %}
+                <img class="ml-2" style="border-radius: 50%; height: 50px; width: auto;" alt="{{ p.username }}" src="{% static "pics/" %}{{ p.profile.picture }}">
+              {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-7">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="text-center" style="color: blue;">Book your Trek!</h4>
+            <form action="/treks/join/{{ t.id }}/" method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="seats">Number of seats:</label>
+                <input type="number" id="seats" class="form-control" min="1" max="3" value="1" required name="seats">
+              </div>
+              <div class="form-group">
+                <label for="dtime">Ideal departure time:</label>
+                <input type="time" id="dtime" class="form-control mb-2" name="dtime">
+                <input type="checkbox" id="flexible" name="flexible">
+                <label for="flexible">Flexible departure time</label>
+              </div>
+              <div class="form-group">
+                <label for="msg">Send a message:</label>
+                <textarea id="msg" class="form-control" name="msg"></textarea>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" id="agree" name="agree" required>
+                <label for="agree">By checking this box, I agree to CarTrek's <a href="{% url "terms" %}">terms of service</a></label>
+              </div>
+              <button class="btn btn-primary" type="submit">Join Trek!</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

@@ -1,0 +1,154 @@
+{% extends "basic.html" %}
+
+{% block navbar %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "browse" %}"><h5>Browse</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "post" %}"><h5>Post a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "request" %}"><h5>Request a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "about" %}"><h5>About us</h5></a></li>
+  {% if user.is_authenticated %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "inbox" %}"><h5 id="inbox">Inbox</h5></a></li>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" style="margin-top: 12px;">Terms of Service</h4>
+          </div>
+          <div class="card-body">
+            <ol type="I">
+              <li>General
+                <ol type="A">
+                  <li>The CarTrek platform can only be used by individuals who
+                      are 18 and older.</li>
+                  <li>As a user of the CarTrek platform, you must provide
+                      accurate and relevant information regarding your
+                      trip.</li>
+                  <li>You must read and accept our terms and conditions
+                      before you register for a trip as a rider or a driver.</li>
+                </ol></li>
+              <li>Use of the Services
+                <ol type="A">
+                  <li>In order to be a driver on the CarTrek platform, you must
+                    fulfill the following conditions:
+                    <ol type="1">
+                      <li>You have a valid driver's license.</li>
+                      <li>You either own or have permission to use the car that
+                          you drive on a trip.</li>
+                      <li>You are the only person driving on a trip that you post
+                          on our platform.</li>
+                      <li>Your insurance must cover carpooling. Your passengers
+                          are considered third parties and must be covered by
+                          your insurance for during your trip.</li>
+                      <li>You may not post the same ride more than once.</li>
+                      <li>You may not advertise more seats than you physically
+                          in your car or accept more passengers than there are
+                          seats available.</li>
+                      <li>Every seat in your car must have a seatbelt.</li>
+                      <li>Your car must be in good condition for driving the
+                          advertised distance.</li>
+                      <li>All information advertised about your trip must be
+                          accurate, and you claim full responsibility for the
+                          accuracy of said information, including dates and times,
+                          pickup and drop-off locations, number of seats
+                          available, and the cost to a passenger. You are also
+                          responsible for notifying any passengers of any changes
+                          pertaining to your trip.</li>
+                      <li>CarTrek reserves the right to modify these conditions at
+                          any time.</li>
+                    </ol></li>
+                  <li>In order to be a passenger of any trip on the CarTrek
+                      platform, you must abide by the following restrictions:
+                    <ol type="1">
+                      <li>You are only permitted to book a seat for a third party
+                          if you can provide the name, age, and telephone number
+                          of the third party.</li>
+                      <li>You are not permitted to book a seat for a minor under
+                          the age of 13 who is travelling alone.</li>
+                      <li>This platform is not meant to transport animals or
+                          objects. Seats may only be reserved for personal travel.</li>
+                    </ol></li>
+                </ol></li>
+              <li>Cancellation Policy
+                <ol type="A">
+                  <li>If the driver cancels a trip after any passengers have
+                      booked and confirmed seats, all passengers will be
+                      refunded the entire cost of booking, including service
+                      fees and any other fees.</li>
+                  <li>If a passenger cancels a booking more than 24 hours before
+                      the departure time, the cost of the trip will be refunded
+                      excluding the service fee.</li>
+                  <li>If a passenger cancels 24 hours or fewer and less than 30
+                      minutes after the booking confirmation, the passenger will
+                      be refunded the cost of the trip excluding the service
+                      fee.</li>
+                  <li>If a passenger cancels 24 hours or fewer and more than 30
+                      minutes after the booking confirmation, the passenger
+                      will receive 50% of the cost of the trip excluding the
+                      service fee.</li>
+                  <li>If the passenger cancels within twenty minutes of the
+                      departure time or fails to arrive at the pickup location
+                      within twenty minutes of the departure time, no refund
+                      will be issued.</li>
+                </ol></li>
+              <li>Expected Behavior
+                <ol type="A">
+                  <li>Drivers are expected to behave according to the following
+                      guidelines:
+                    <ol type="1">
+                      <li>Respect all preexisting laws and regulations
+                          pertaining to driving.</li>
+                      <li>Do not engage in risky behavior while driving.</li>
+                      <li>Your car must be in good working condition.</li>
+                      <li>Provide all passengers with your contact
+                          information</li>
+                      <li>Do not refuse any booking on the basis of race, color,
+                          ethnicity, national origin, religion, sex, gender,
+                          sexual orientation, marital status, pregnancy,
+                          economic status, health, or age.</li>
+                      <li>Do not post a trip unless you intend to take it.</li>
+                      <li>Wait for passengers at least 20 minutes after the
+                          agreed pickup time.</li>
+                      <li>Notify all passengers immediately of any changes to
+                          the details of your trip</li>
+                      <li>Behave responsibly during your trip</li>
+                    </ol></li>
+                  <li>Passengers are expected to behave according to the
+                      following guidelines.
+                    <ol type="1">
+                      <li>Respect the driver and their car</li>
+                      <li>Inform the driver immediately if your arrival will be
+                          delayed</li>
+                      <li>Wait for the driver for at least 20 minutes after the
+                          scheduled departure</li>
+                      <li>Provide your contact information to the driver</li>
+                      <li>Any third party that you book a trip for must also
+                          agree to these terms and conditions</li>
+                    </ol></li>
+                </ol></li>
+              <li>Role of CarTrek
+                <ol type="A">
+                  <li>CarTrek does not own or manage any of the cars that our
+                      users drive or ride in and is not responsible for the
+                      behavior of either drivers or passengers.</li>
+                  <li>We cannot be held liable for any of the following:
+                    <ol type="1">
+                      <li>Incorrect or inaccurate information posted by a
+                          driver</li>
+                      <li>Cancellation or modification of a trip by a
+                          driver</li>
+                      <li>Passenger's inability to pay for a trip after trip is
+                          confirmed</li>
+                      <li>The behavior of any user of our platform</li>
+                    </ol></li>
+                </ol></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

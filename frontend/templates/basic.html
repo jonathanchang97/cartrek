@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{{ title }}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- jqueryUI css -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
+  <!-- Bootstrap css -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+  <!-- Poppins font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+  <!-- My css -->{% load static %}
+  <link rel="stylesheet" href="{% static "css/style.css" %}">
+</head>
+
+<body>{% load socialaccount %}
+  <header class="navbar navbar-expand mb-3 bd-navbar flex-column flex-md-row pb-0">
+    <div class="navbar-nav-scroll">
+      <ul class="navbar-nav bd-navbar-nav flex-row">
+        <li class="nav-item mb-2"><a class="navbar-brand mr-3" href="/"><img id="logo" alt="CarTrek" src="{% static "pics/cartrek.png" %}"></a></li>
+        {% if user.is_authenticated %}
+          <li>
+          <span class="dropdown d-block d-md-none">
+            <button id="prof" type="button" class="btn btn-primary dropdown-toggle"
+             data-toggle="dropdown">
+              <img class="prof" alt="{{ user.get_username }}" src="{% static "pics/" %}{{ user.profile.picture }}">
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="/profile/{{ user.username }}/">Profile</a>
+              <form method="post" action="/accounts/logout/">
+                {% csrf_token %}
+                <input class="dropdown-item" type="submit" value="Log Out">
+              </form>
+            </div>
+          </span>
+          </li>
+        {% else %}
+        <li class="nav-item pt-3 pt-md-0 d-block d-md-none ml-2"><a class="nav-link text-dark rounded bg-light" href="{% provider_login_url "facebook" method="oauth2" %}">Log in</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    <ul id="navbar" class="navbar-nav flex-row ml-md-auto bd-navbar-nav flex-row mr-md-5 mb-0 mt-auto pt-md-4">
+      {% block navbar %}{% endblock %}
+    </ul>
+    {% if user.is_authenticated %}
+      <div class="dropdown d-none d-md-block">
+        <button id="prof" type="button" class="btn btn-primary dropdown-toggle mb-2"
+         data-toggle="dropdown">
+          <img class="prof" alt="{{ user.get_username }}" src="{% static "pics/" %}{{ user.profile.picture }}">
+          <br>
+          <span class="small text-dark">{{ user.first_name }}</span>
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="/profile/{{ user.username }}/">Profile</a>
+          <form method="post" action="/accounts/logout/">
+            {% csrf_token %}
+            <input class="dropdown-item" type="submit" value="Log Out">
+          </form>
+        </div>
+      </div>
+    {% else %}
+      <a class="text-dark rounded bg-light nav-link d-none d-md-block mb-2" href="{% provider_login_url "facebook" method="oauth2" %}">Log in with Facebook</a>
+    {% endif %}
+  </header>
+
+  {% block content %}{% endblock %}
+
+  <!-- Bootstrap js -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <!-- jqueryUI js -->
+  <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <!-- My js -->
+  <script src="{% static "js/my.js" %}"></script>
+  <script>
+    {% if user.is_authenticated %}
+    msg_count({{ user.pk }});
+    {% endif %}
+  </script>
+  {% block extrajs %}{% endblock %}
+</body>
+</html>

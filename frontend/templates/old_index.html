@@ -1,0 +1,68 @@
+{% extends "basic.html" %}
+
+{% block navbar %} 
+  <li class="nav-item"><a class="nav-link disabled" href="{% url "browse" %}">Browse</a></li>
+  <li class="nav-item"><a class="nav-link" href="{% url "post" %}">Post a Trek</a></li>
+  <li class="nav-item"><a class="nav-link" href="{% url "blog" %}">Blog</a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "request" %}"><h5>Request a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link" href="{% url "about" %}">About us</a></li>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row flex-row-reverse">
+      <div class="col-sm-3 text-center">
+        <p>filter</p>
+      </div>
+      <div class="col-sm-9">
+<!--    <ul class="nav nav-tabs">
+          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Browse</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Post</a></li>
+        </ul> -->
+        <div class="card">
+          <div class="card-header navbar navbar-expand-md">
+            <button class="navbar-toggler mr-auto ml-auto" type="button" data-toggle="collapse"
+             data-target="#search">Search</button>
+            <div id="search" class="navbar-collapse collapse">
+              <ul class="navbar-nav">
+                <li><form class="form-inline">
+                  <input type="text" class="form-control mb-2 mr-sm-2" placeholder="from">
+                  <input type="text" class="form-control mb-2 mr-sm-2" placeholder="to">
+                  <input type="text" class="form-control mb-2 mr-sm-2" size="6" placeholder="date">
+                  <button class="btn btn-primary mb-2 mr-sm-2">Search</button>
+                </form></li>
+              </ul>
+            </div>
+<!--        <div class="row">
+              <div class="col-sm dropdown">
+                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
+                  from
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="">Boston</a>
+                  <a class="dropdown-item" href="">New York</a>
+                </div>
+              </div>
+              <div class="col-sm dropdown">
+                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
+                  to
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="">Philadelphia</a>
+                  <a class="dropdown-item" href="">LOJ</a>
+                </div>
+              </div>
+              <div class="col-sm">
+                <button class="btn btn-primary">asdf</button>
+              </div>
+            </div> -->
+          </div>
+          <div class="card-body">
+            <p>welcum</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

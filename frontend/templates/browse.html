@@ -1,0 +1,185 @@
+{% extends "basic.html" %}
+
+{% block navbar %} 
+  <li class="nav-item"><a class="nav-link text-dark disabled"><h5>Browse</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "post" %}"><h5>Post a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "request" %}"><h5>Request a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "about" %}"><h5>About us</h5></a></li>
+  {% if user.is_authenticated %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "inbox" %}"><h5 id="inbox">Inbox</h5></a></li>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div id="tofrom" class="row mb-2">
+      <div class="col-sm">
+        <span class="dropdown">
+          <button type="button" class="btn btn-light dropdown-toggle"
+           data-toggle="dropdown"><b>{{ from }}</b></button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="?{% if to != "To" %}dst={{ to }}{% endif %}">Anywhere</a>
+            {% for s in sources %}
+              <a class="dropdown-item" href="?src={{ s }}{% if to != "To" %}&amp;dst={{ to }}{% endif %}">{{ s }}</a>
+            {% endfor %}
+          </div>
+        </span>
+        &rarr;
+        <span class="dropdown">
+          <button type="button" class="btn btn-light dropdown-toggle"
+           data-toggle="dropdown"><b>{{ to }}</b></button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="?{% if from != "From" %}src={{ from }}{% endif %}">Anywhere</a>
+            {% for d in destinations %}
+              <a class="dropdown-item" href="?{% if from != "From" %}src={{ from }}&amp;{% endif %}dst={{ d }}">{{ d }}</a>
+            {% endfor %}
+          </div>
+        </span>
+      </div>
+      <div class="col-sm">
+        <div class="btn-group">
+          <button id="treks_btn" onclick="show_treks();" class="btn btn-success">Treks</button>
+          <button id="reqs_btn" onclick="show_reqs();" class="btn btn-outline-success">Requests</button>
+        </div>
+      </div>
+    </div>
+    <div class="row flex-row-reverse">
+      <div id="filter-col" class="col-sm-3 text-center mb-2">
+        <button class="btn pb-0 btn-light" data-toggle="collapse" data-target="#filter-form"><h5><u><b>Filter Results</b></u></h5></button>
+        <form id="filter-form" class="collapse show mt-3 text-left" method="get" action="">
+          {% if from != "From" %}
+          <input type="hidden" name="src" value="{{ from }}">
+          {% endif %}
+          {% if to != "To" %}
+          <input type="hidden" name="dst" value="{{ to }}">
+          {% endif %}
+          <div id="form-group">
+            <label for="date">Date:</label><br>
+            <input name="date" id="date" type="date" size="6" class="form-control ml-2 mb-2">
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="dtime" name="dtime">
+            <label for="dtime" class="ml-1" id="dlabel">Departure Time: </label>
+          </div>
+          <input type="range" name="dtime_range" class="form-control-range mb-4" id="dtime_range" max="23" min="0" value="12">
+<!--      {% if user.is_authenticated %}
+          <div class="form-group">
+            <input type="checkbox" name="org_only" id="org_only">
+            <label for="org_only" class="ml-1">{{ user.profile.affiliation }} Only</label><br>
+            <input type="checkbox" name="mutual" id="mutual">
+            <label for="mutual" name="mutual" class="ml-1">Mutual Friends</label><br>
+            <input type="checkbox" id="gender" name="gender">
+            <label class="ml-1" for="gender">All Female</label>
+          </div>
+          {% endif %} -->
+          <div class="form-group text-center">
+            <button class="btn btn-primary" type="submit">Apply</button>
+          </div>
+        </form>
+      </div>
+      <!-- main frame -->
+      <div id="requests" class="col-sm-9" style="display: none;">
+      {% if requests %}
+        {% for r in requests %}
+          {% if forloop.counter0|divisibleby:"2" %}
+        <div class="row">
+          {% endif %}
+          <div class="col-md-6 mb-2 pr-md-0">
+            <div class="card">
+              <div class="card-body">
+                <div class="row" style="height: 100px;">
+                  <div class="col-4 text-center">{% load static %}
+                    <a href="{% url "profile" user=r.passenger.username %}"><img style="height: 100px; width: auto; border-radius: 50%;" alt="{{ r.passenger.username }}" src="{% static "pics/" %}{{ r.passenger.profile.picture }}"></a>
+                  </div>
+                  <div class="col-8">
+                    <p>{{ r.date }}<br>
+                    {{ r.from_city }}, {{ r.from_state }} &rarr; {{ r.to_city}}, {{ r.to_state }}<br>
+                    Departing: {{ r.departure_time }}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-4 text-center">
+                    <a href="{% url "profile" user=r.passenger.username %}">{{ r.passenger.first_name }}</a>
+                  </div>
+                  <div class="col-8" style="overflow: hidden; height: 100px;">
+                    <p class="text-muted">{{ r.note }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% if forloop.last or forloop.counter|divisibleby:"2" %}
+        </div>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <h4 class="text-center pt-5 pl-sm-5">Sorry, no treks matched your search.</h4>
+      {% endif %}
+      </div>
+      <div id="treks" class="col-sm-9">
+      {% if treks %}
+        {% for t in treks %}
+          {% if forloop.counter0|divisibleby:"2" %}
+        <div class="row">
+          {% endif %}
+          <div class="col-md-6 mb-2 pr-md-0">
+            <!-- trek card -->
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-4 text-center">{% load static %}
+                    <a href="{% url "profile" user=t.driver %}"><img style="height: 100px; width: auto; border-radius: 50%;" alt="{{ t.driver.username }}" src="{% static "pics/" %}{{ t.driver.profile.picture }}"></a>
+                  </div>
+                  <div class="col-6">
+                    <p>{{ t.date }}<br>
+                    {{ t.from_city }}, {{ t.from_state }} &rarr; {{ t.to_city}}, {{ t.to_state }}<br>
+                    Departing: {{ t.departure_time }}</p>
+                  </div>
+                  <div class="col-2 text-center pr-0 pl-0">
+                    <p>{{t.seats_taken }} / {{ t.seats }}</p>
+                    <p>${{ t.price }}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-4 text-center">
+                    <p class="small"><a href="{% url "profile" user=t.driver %}">{{ t.driver.first_name }}</a><br>
+                    {{ t.driver.profile.affiliation }}</p>
+                  </div>
+                  <div class="col-8" style="overflow: hidden; height: 100px;">
+                    <p class="text-muted">{{ t.note }}</p>
+                  </div>
+                </div>
+                <div class="row mb-2" style="height: 50px;">
+                  <div class="col-7 mb-1">
+                    <span>Other passengers:</span>
+                  {% for p in t.passengers %}
+                    <img class="ml-2" style="border-radius: 50%; height: 50px; width: auto;" alt="{{ p.username }}" src="{% static "pics/" %}{{ p.profile.picture }}">
+                  {% endfor %}
+                  </div>
+                  <div class="col-5 text-center">
+                    {% if user != t.driver and user not in t.passengers %}
+                    <a class="btn btn-outline-success" href="/trek/{{ t.id }}/">Request<br>Seat</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% if forloop.last or forloop.counter|divisibleby:"2" %}
+        </div>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <h4 class="text-center pt-5 pl-sm-5">Sorry, no treks matched your search.</h4>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extrajs %}
+  <script>
+    browse_slider();
+    browse_dp();
+  </script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "basic.html" %}
+
+{% block navbar %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "browse" %}"><h5>Browse</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "post" %}"><h5>Post a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "request" %}"><h5>Request a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark disabled"><h5>About us</h5></a></li>
+  {% if user.is_authenticated %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "inbox" %}"><h5 id="inbox">Inbox</h5></a></li>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h4>About us</h4>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">The Trek Started with a Single Step</h4>
+            <p class="card-text">
+              Adventurous students returned from Europe, and surely enough “abroad changed them”. Overseas, they saw a culture that they longed to replicate. A culture of trusting strangers, taking action, and sharing resources that they wanted to bring to the US. Back on campus they were frustrated that travel was largely limited to students with cars, money, or the time to arrange extravagant plans. They devised a plan for CarTrek, and planned to utilize the hub of college students in the Boston area to create the most comfort oriented, economically friendly way to Trek on to your next adventure.
+            </p>
+            <h4 class="card-title">Where does that bring us now?</h4>
+            <p>
+              We’re still in our beginning phases, obviously, launching a base product with plans to launch a web-app in the coming weeks. We plan on tapping into the untouched long distance carpooling market in the US and connect drivers and riders who are looking for friendly carpooling. Ross, Mikayla, Olive and Adon comprise the CarTrek team and are dedicated to providing a social, cost efficient, smart and safe way to Trek. We hope you feel welcome in joining our community and enjoy using a sustainable, and fun way to travel.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

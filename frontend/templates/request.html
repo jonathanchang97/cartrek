@@ -1,0 +1,138 @@
+{% extends "basic.html" %}
+
+{% block navbar %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "browse" %}"><h5>Browse</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "post" %}"><h5>Post a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark disabled"><h5>Request a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "about" %}"><h5>About us</h5></a></li>
+  {% if user.is_authenticated %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "inbox" %}"><h5 id="inbox">Inbox</h5></a></li>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3"></div>
+        <div class="col-6">
+          <form action="/treks/request/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <label for="{{ form.date.id_for_label }}">Leaving:</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  {{ form.date }}
+                </div>
+                <div class="col-md-6">
+                  {{ form.departure_time }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col d-none d-md-block"></div>
+                <div class="col">
+                  {{ form.flexible_departure }}
+                  <label for="{{ form.flexible_departure.id_for_label }}">Flexible</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <label for="{{ form.arrival_time.id_for_label }}">Arriving (approximately):</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  {{ form.arrival_time }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-6">
+                  <label for="{{ form.from_addr.id_for_label }}">From:</label>
+                  {{ form.from_addr }}
+                  <div class="row">
+                    <div class="col">
+                      {{ form.from_city }}
+                    </div>
+                    <div class="col">
+                      {{ form.from_state }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label for="{{ form.to_addr.id_for_label }}">To:</label>
+                  {{ form.to_addr }}
+                  <div class="row">
+                    <div class="col">
+                      {{ form.to_city }}
+                    </div>
+                    <div class="col">
+                      {{ form.to_state }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  {{ form.pickup }}
+                  <label for="{{ form.pickup.id_for_label }}">Pickup</label><br>
+                  <label for="{{ form.pickup_radius.id_for_label }}" id="pdl">Max distance: </label><br>
+                  {{ form.pickup_radius }}
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  {{ form.dropoff }}
+                  <label for="{{ form.dropoff.id_for_label }}">Dropoff</label><br>
+                  <label for="{{ form.dropoff_radius.id_for_label }}" id="ddl">Max distance: </label><br>
+                  {{ form.dropoff_radius }}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+<!--            <h6>Options:</h6>
+                <div class="form-group">
+                  {{ form.fem_only }}
+                  <label for="{{ form.fem_only.id_for_label }}">Female only</label><br>
+
+                  {{ form.org_only }}
+                  <label for="{{ form.org_only.id_for_label }}">{{ user.profile.affiliation }} only</label><br>
+                  
+                  {{ form.edu_only }}
+                  <label for="{{ form.edu_only.id_for_label }}">Students only</label><br>
+
+                  {{ form.mutuals_only }}
+                  <label for="{{ form.mutuals_only.id_for_label }}">Mutual friends only</label>
+                </div> -->
+              </div> 
+              <div class="col">
+                <label for="{{ form.note.id_for_label }}">Note for your driver:</label>
+                {{ form.note }}
+              </div>
+            </div>
+            <div class="form-group text-center">
+              <button class="btn btn-primary">Request Trek</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extrajs %}
+  <script>
+    geolocate();
+    post_sliders();
+    post_dp();
+  </script>
+{% endblock %}

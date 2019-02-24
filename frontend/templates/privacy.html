@@ -1,0 +1,76 @@
+{% extends "basic.html" %}
+
+{% block navbar %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "browse" %}"><h5>Browse</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "post" %}"><h5>Post a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "request" %}"><h5>Request a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "about" %}"><h5>About us</h5></a></li>
+  {% if user.is_authenticated %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "inbox" %}"><h5 id="inbox">Inbox</h5></a></li>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" style="margin-top: 12px;">Privacy Policy</h4>
+          </div>
+          <div class="card-body">
+            <h5>Information we Collect</h5>
+            <p style="text-indent: 2em;">
+              By logging on to this website through Facebook you give us access
+              to your name, Facebook profile picture, and email address.
+              We also collect all information you enter into your CarTrek public
+              profile, and we keep track of all treks you take part in as a
+              driver or a passenger. This website uses cookies.
+            </p>
+
+            <h5>What We Do with This Information</h5>
+            <p style="text-indent: 2em;">
+              Excluding any information Facebook may collect from your account
+              and activities, we will not share your information with
+              any third-parties. Your contact information will not be publicly
+              available, and will only be shared with other users who are
+              passengers  of yours or are driving you. We may use information
+              about your treks to improve our service and yours and other users'
+              experiences. CarTrek may use the information you provide to us to
+              contact you if necessary.
+            </p>
+
+            <h5>Security</h5>
+            <p style="text-indent: 2em;">
+              All interactions on this website are encrypted with SSL, and we
+              guarantee that we have taken all reasonable measures to ensure
+              the security of any private information you may choose
+              to share with us through this website.
+            </p>
+
+            <h5>Consent</h5>
+            <p style="text-indent: 2em;">
+              By using this website you consent to this privacy policy and to
+              our <a href="{% url "terms" %}">terms of service</a>. At any time
+              you may request from us a copy of all the information we keep about
+              you, and if you choose to delete your account we will not
+              maintain any of this data.
+            </p>
+
+            <h5>Changes to our Privacy Policy</h5>
+            <p style="text-indent: 2em;">
+              We reserve the right to change this policy at any time. All
+              changes will be posted on this page.
+            </p>
+
+            <h5>Contact Us</h5>
+            <p style="text-indent: 2em;">
+              Contact us with any questions you may have at
+              cartrek.us@gmail.com.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

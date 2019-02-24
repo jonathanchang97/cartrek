@@ -1,0 +1,147 @@
+{% extends "basic.html" %}
+
+{% block navbar %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "browse" %}"><h5>Browse</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "post" %}"><h5>Post a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "request" %}"><h5>Request a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "about" %}"><h5>About us</h5></a></li>
+  {% if user.is_authenticated %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "inbox" %}"><h5 id="inbox">Inbox</h5></a></li>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <!-- Profile -->
+      <div id="profile" class="col-sm-6">
+        <div class="row">
+          <div class="col mb-4">{% load static %}
+            <img style="height: 150px; width: auto; border-radius: 50%;" alt="profile" src="{% static "pics/" %}{{ profile.picture }}">
+          </div>
+          <div class="col">
+            <h4>{{ profile.user.first_name }}</h4>
+            <ul style="list-style-type: none; padding-left: 0;">
+              {% if user.username == profile.user.username %}
+              <li>[<a href="/edit/">edit</a>]</li>
+              {% endif %}
+              {% if profile.affiliation %}<li>{{ profile.affiliation }} {% if profile.verified %}<span class="text-success">Verified</span>{% else %}<span class="text-danger">not verified</span>{% endif %}</li>{% endif %}
+              <li>From: {{ profile.hometown }}</li>
+              <li>Studying: {{ profile.major }}</li>
+            </ul>
+          </div>
+        </div>
+<!--    <div class="row mb-3">
+          <div class="col">
+            <h5>Mutual Connections:</h5>
+            <ul>
+              {% for friend in profile.user.socialaccount_set.all.0.extra_data.friends.data %}
+              <li>{{ friend }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div> -->
+        <div class="row mt-5 mb-3">
+          <div class="col">
+            <h5>About {{ profile.user.first_name }}:</h5>
+            <p class="pl-5 text-muted">{{ profile.bio }}</p>
+          </div>
+        </div>
+<!--
+        <div class="row mb-3">
+          <div class="col">
+            <h5>Interests:</h5>
+              <button type="button" class="btn btn-info">An interest!</button>
+              <button type="button" class="btn btn-info">another one!</button>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col mb-3">
+            <h5>Top Spotify Artists:</h5>
+          </div>
+        </div>
+-->
+      </div> 
+
+      <div id="treks" class="col-sm-6">
+        {% if profile.car %}
+        <div class="row">
+          <div class="col mb-5 mt-5">
+            <img alt="cartrek" src="{% static "pics/cartrek.png" %}" style="height: 40px; width: auto;">
+            <span class="ml-3">Drives: {{ profile.car }}</span>
+          </div>
+        </div>
+        {% endif %}
+        <div class="row">
+          <div class="col">
+            <!-- Treks -->
+            <h5>Upcoming Treks:</h5>
+            {% for t in profile.treks %}
+              {% if forloop.counter0|divisibleby:"2" %}
+            <div class="row">
+            {% endif %}
+              <div class="col-md-6 mb-2 pr-md-0">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-8">
+                        <p>{{ t.from_city }}, {{ t.from_state }} &rarr; {{ t.to_city }}, {{ t.to_state }}</p>
+                      </div>
+                      <div class="col-4 text-center">
+                        <p>{{ t.seats_taken }} / {{ t.seats }}</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-8">
+                        <p>{{ t.date }}<br>
+                        Departing: {{ t.departure_time }}<br>
+                        Arriving: {{ t.arrival_time }}</p>
+                      </div>
+                      <div class="col-4 text-center">
+                        <p>${{ t.price }}</p>
+                      </div>
+                    </div>
+                    <div class="row" style="height: 100px; overflow: hidden;">
+                      <div class="col">
+                        <p class="text-muted">{{ t.note }}<p>
+                      </div>
+                    </div>
+                    <div class="row" style="height: 50px;">
+                      <div class="col">
+                        <span>Other passengers:</span>
+                      {% for p in t.passengers %}
+                        <img class="ml-2" style="border-radius: 50%; height: 50px; width: auto;" alt="{{ p.username }}" src="{% static "pics/" %}{{ p.profile.picture }}">
+                      {% endfor %}
+                      </div>
+                    </div>
+                    {% if user == profile.user %}
+                    {% if user == t.driver %}
+                    <div class="row text-center mt-3" style="height: 50px;">
+                      <div class="col">
+                        <button class="btn btn-outline-danger" onclick="delete_trek({{ t.id }});">Delete Trek</button>
+                      </div>
+                    </div>
+                    {% else %}
+                    <div class="row text-center mt-3" style="height: 50px;">
+                      <div class="col">
+                        <button class="btn btn-outline-danger" onclick="leave_trek({{ t.id }});">Leave Trek</button>
+                      </div>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              {% if forloop.last or forloop.counter|divisibleby:"2" %}
+            </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+          {% if profile.user != user %}
+            <a class="btn btn-outline-success" href="/msg/{{ profile.user }}">Message {{ profile.user.first_name }}</a>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

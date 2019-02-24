@@ -1,0 +1,68 @@
+{% extends "basic.html" %}
+
+{% block navbar %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "browse" %}"><h5>Browse</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "post" %}"><h5>Post a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "request" %}"><h5>Request a Trek</h5></a></li>
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "about" %}"><h5>About us</h5></a></li>
+  {% if user.is_authenticated %}
+  <li class="nav-item"><a class="nav-link text-dark" href="{% url "inbox" %}"><h5 id="inbox">Inbox</h5></a></li>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="accordion mb-3">
+          <h4>New Messages</h4>
+          <div class="card rounded">
+          {% for m in msgs_new %}
+            <div class="card-header">
+              <h5 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#new_{{ forloop.counter }}">
+                  From: {{ m.sender.first_name }} | {{ m.timestamp }}
+                </button>
+              </h5>
+            </div>
+
+            <div id="new_{{ forloop.counter }}" class="collapse">
+              <div class="card-body">
+                <p>{{ m.content }}</p>
+                <form action="/profiles/readmsg/{{ m.pk }}/" method="post">
+                  <button type="submit" class="mb-3 float-right btn btn-outline-success">Mark as read</button>
+                </form>
+                <a class="mb-3 mr-3 float-right btn btn-outline-success" href="{% url "sendmsg" user=m.sender.username %}">Reply</a>
+              </div>
+            </div>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="accordion">
+          <h4>Old Messages</h4>
+          <div class="card rounded">
+          {% for m in msgs_old %}
+            <div class="card-header">
+              <h5 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#old_{{ forloop.counter }}">
+                  From: {{ m.sender.first_name }} | {{ m.timestamp }}
+                </button>
+              </h5>
+            </div>
+
+            <div id="old_{{ forloop.counter }}" class="collapse">
+              <div class="card-body">
+                <p>{{ m.content }}</p>
+              </div>
+            </div>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
