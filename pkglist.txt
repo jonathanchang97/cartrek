@@ -1,0 +1,14 @@
+bash-completion
+git
+neovim
+nginx-full
+postgresql
+python3
+python-certbot-nginx
+python3-virtualenv
+rxvt-unicode-256color
+stow
+supervisor
+tmux
+virtualenvwrapper
+w3m

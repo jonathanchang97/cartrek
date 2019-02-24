@@ -1,0 +1,49 @@
+SETTING UP THE SERVER FOR DEVELOPMENT
+=====================================
+
+SETTING UP YOUR ENVIRONMENT
+---------------------------
+* python3 is required, python2 will not work
+* using virtualenv is recommended but not required
+* `pip install -r requirements.txt`
+
+SETTING UP THE DATABASE (assumes you have already installed postgresql)
+-----------------------------------------------------------------------
+* `sudo -u postgres psql`
+* CREATE USER cartrek WITH PASSWORD '<pswd>'; (<pswd> is in db_pass.txt)
+* CREATE DATABASE cartrek WITH OWNER cartrek;
+* exit psql and run `python manage.py migrate`
+* the previous command will fail about halfway through, but the following SQL
+        sequence will fix it:
+```
+ALTER TABLE profiles_message
+ALTER COLUMN timestamp
+SET DATA TYPE TIMESTAMP WITH TIME ZONE USING 'yesterday'::date + "timestamp";
+```
+*  Now run the migrate command again and the database should be ready.
+
+FACEBOOK INTEGRATION
+--------------------
+* `python manage.py createsuperuser` and follow prompts (no need to enter email)
+* `python manage.py runserver` starts the development server
+* got to 'localhost:8000/admin' in your browser to set up FaceBook integration.
+* You'll have to manually edit Sites and Social applications.
+* There should already be a site listed in Sites. Make sure the domain name
+        matches the domain the facebook app is expecting. (For development,
+        this should just be "localhost.")
+* Next, add a Social application. The Provider is Facebook, and Client id and
+        Secret key can be found in your facebook app's settings.
+* Make sure you've added your site, and that the domain name is correct.
+* The last thing you'll need to do is add a group in Groups called "adults."
+        This is necessary to ensure user accounts have full profiles.
+* The development server should now be fully functional.
+
+UNDERSTANDING THE CODE
+----------------------
+The project is separated into three apps, separating the logic of the server
+into frontend functionality, and backend implementations of treks and user
+profiles. Within each app the database models are in models.py, and the server
+functionality is in views.py. The html for the frontend is in
+frontend/templates/ and the static javascript and css are in frontend/static/. 
+The project-wide settings are in cartrek/settings/. The URL routing is in
+frontend/urls.py rather than cartrek/urls.py.

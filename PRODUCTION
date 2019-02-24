@@ -1,0 +1,30 @@
+SETTING UP A SERVER FOR PRODUCTION (assumes a bare debian VM)
+=============================================================
+
+Getting the code and setting up the environment
+-----------------------------------------------
+* `# apt install git`
+* `$ git clone https://gitlab.com/adonSh/cartrek.git && cd cartrek`
+* `# apt install $(cat pkglist.txt)`
+* `$ mkvirtualenv --python=/usr/bin/python3 cartrek`
+* `$ pip install -r requirements.txt` (in virtualenv)
+
+Configuring Nginx and Supervisor
+--------------------------------
+* put sample nginx conf in /etc/nginx/sites-available/<site name>
+* `# ln -s /etc/nginx/sites-available/<site> /etc/nginx/sites-enabled/<site>`
+* `# rm /etc/nginx/sites-enabled/default`
+* `# groupadd supervisor`
+* `# usermod -aG supervisor <your user>`
+* put sample supervisor conf in /etc/supervisor/conf.d/<site>
+* add the following to /etc/supervisor/supervisor.conf:
+        chmod=0770
+        chown=root:supervisor
+
+Certbot for SSL
+---------------
+* ensure site is running and domain has no AAAA record configured (unless you
+        are using IPv6)
+* `# certbot --nginx -d <site>`
+
+See CONTRIBUTING for help setting up the database and facebook integration
