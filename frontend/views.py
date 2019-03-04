@@ -15,6 +15,10 @@ from treks.forms import TrekForm, ReqForm
 URL = 'http://localhost:8000/'
 #URL = 'https://www.cartrek.us/'
 
+def homepage(req):
+    context = {'x': 'Hello Michael'}
+    return render(req, 'old_index.html', context=context)
+
 def browse(req):
     # get json (depends on url params)
     context = {}
