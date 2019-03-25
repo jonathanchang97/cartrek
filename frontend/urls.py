@@ -6,8 +6,7 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', RedirectView.as_view(url='/homepage/', permanent=True)),
-    path('homepage/', views.homepage, name='homepage'),
+    path('', views.homepage, name='homepage'),
     path('browse/', views.browse, name='browse'),
     path('post/', views.post, name='post'),
     path('request/', views.request, name='request'),

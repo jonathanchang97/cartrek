@@ -331,7 +331,7 @@ function msg_count(user) {
 function affiliate() {
     var row = document.getElementById('org');
     var selectval = document.getElementById('id_affiliation').value;
-    var org = document.querySelector(`[value="${selectval}"]`).innerHTML;
+    var org = document.querySelector('[value="${selectval}"]').innerHTML;
     var label = document.getElementById('org_label');
     var input = document.getElementById('id_org_email');
     

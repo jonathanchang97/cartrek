@@ -56,16 +56,16 @@ header {
   height: 80px;
 }
 
-/*
-#navbar {
-  margin-top:
-  margin-bottom: -50px;
-}
-*/
-
 u {
   text-decoration-color: #70a985;
 }
+
+.nav-item {
+  padding-left: 10px;
+  margin-left: 10px;
+  font-size: 150%;
+}
+
 a.nav-link {
   text-decoration: underline;
   text-decoration-color: #70a985;

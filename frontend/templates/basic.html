@@ -12,20 +12,20 @@
   <!-- Poppins font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
   <!-- My css -->{% load static %}
-  <link rel="stylesheet" href="{% static "css/style.css" %}">
+  <link rel="stylesheet" href="{% static "css/styles.css" %}">
 </head>
 
 <body>{% load socialaccount %}
   <header class="navbar navbar-expand mb-3 bd-navbar flex-column flex-md-row pb-0">
     <div class="navbar-nav-scroll">
       <ul class="navbar-nav bd-navbar-nav flex-row">
-        <li class="nav-item mb-2"><a class="navbar-brand mr-3" href="/"><img id="logo" alt="CarTrek" src="{% static "pics/cartrek.png" %}"></a></li>
+        <li class="nav-item mb-2"><a class="navbar-brand mr-3" href="/"><img id="logo" alt="CarTrek" src="{% static "images/logo.png" %}"></a></li>
         {% if user.is_authenticated %}
           <li>
           <span class="dropdown d-block d-md-none">
             <button id="prof" type="button" class="btn btn-primary dropdown-toggle"
              data-toggle="dropdown">
-              <img class="prof" alt="{{ user.get_username }}" src="{% static "pics/" %}{{ user.profile.picture }}">
+              <img class="prof" alt="{{ user.get_username }}" src="{% static "images/" %}{{ user.profile.picture }}">
             </button>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="/profile/{{ user.username }}/">Profile</a>
@@ -48,7 +48,7 @@
       <div class="dropdown d-none d-md-block">
         <button id="prof" type="button" class="btn btn-primary dropdown-toggle mb-2"
          data-toggle="dropdown">
-          <img class="prof" alt="{{ user.get_username }}" src="{% static "pics/" %}{{ user.profile.picture }}">
+          <img class="prof" alt="{{ user.get_username }}" src="{% static "images/" %}{{ user.profile.picture }}">
           <br>
           <span class="small text-dark">{{ user.first_name }}</span>
         </button>
@@ -61,7 +61,7 @@
         </div>
       </div>
     {% else %}
-      <a class="text-dark rounded bg-light nav-link d-none d-md-block mb-2" href="{% provider_login_url "facebook" method="oauth2" %}">Log in with Facebook</a>
+      <a class="text-dark rounded bg-light nav-link d-none d-md-block mb-2" href="{% provider_login_url "facebook" method="oauth2" %}">Log in</a>
     {% endif %}
   </header>
 

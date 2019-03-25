@@ -1,0 +1,57 @@
+{% extends "basic.html" %}
+
+{% block navbar %} 
+{% load static %}
+	<li class="nav-item"><a class="nav-link text-light disabled"><h5>Home</h5></a></li>
+	<li class="nav-item"><a class="nav-link text-light" href="{% url "browse" %}"><h5>Browse</h5></a></li>
+	<li class="nav-item"><a class="nav-link text-light" href="{% url "post" %}"><h5>Post a Trek</h5></a></li>
+	<li class="nav-item"><a class="nav-link text-light" href="{% url "blog" %}"><h5>Blog</h5></a></li>
+	<li class="nav-item"><a class="nav-link text-light" href="{% url "about" %}"><h5>About us</h5></a></li>
+{% endblock %}
+
+{% block content %}
+{% load static %}
+  <div class="homepage">
+    <div class="find-trek">
+      <img id="car-graphic" class="img-fluid float-right" alt="Car Graphic" src="{% static "images/carGraphic.png" %}">
+      <div class="container find-trek-container">
+        <div class="row flex-row-reverse">
+            <div class="card">
+              <div class="card-header navbar navbar-expand-md">
+                <div id="search" class="navbar-collapse collapse">
+                  <ul class="navbar-nav">
+                    <li><form class="form-inline">
+                      <input type="text" class="form-control mb-2 mr-sm-2 search-input" placeholder="Leaving From...">
+                      <input type="text" class="form-control mb-2 mr-sm-2 search-input" placeholder="Going To...">
+                      <input type="text" class="form-control mb-2 mr-sm-2 search-input" size="6" placeholder="Travel Date">
+                    </form></li>
+										<button class="btn btn-primary mb-2 mr-sm-2 " id="get-trekking-btn">Get Trekking</button>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body"> 
+              </div>
+            </div>
+        </div>
+      </div>
+    </div> <!-- find-trek -->
+    <div class="process">
+      <img id="process-graphic" class="img-fluid mx-auto d-block" alt="Process Graphic" src="{% static "images/process-graphic.png" %}">
+    </div> <!-- process -->
+		<div class="testimonials">
+			<div class="container"> 
+      	<div class="row">
+					<div class="card">
+						
+					</div>
+				</div>
+			</div>		
+			<!--use blockquotes
+					<blockquote class="blockquote blockquote-reverse"
+					
+					<div> class="blockquote-footer">
+						Jane
+					</div>-->
+		</div> <!-- testimonials -->
+  </div>
+{% endblock %}
