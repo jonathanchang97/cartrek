@@ -84,7 +84,8 @@ a.disabled {
  */
 
 #car-graphic {
-  width: 30%;
+  width: 35%;
+	z-index: -1;
 }
 
 .homepage {
@@ -92,12 +93,20 @@ a.disabled {
 }
 
 .find-trek {
-  padding-bottom: 300px;
+	overflow: auto;
+	padding: 25px 25px;
 }
 
 .find-trek-container {
   position: relative;
-  top: 100px;
+	border-color: #178D5D;
+	border-radius: 15px;
+	padding: 50px 50px;
+}
+
+#cartrek-hp-search {
+	position: relative;
+	top: -70px; 
 }
 
 .process {
@@ -109,14 +118,17 @@ a.disabled {
 }
 
 .search-input {
-	text-decoration-color: #178D5D
+	text-decoration-color: #178D5D;
+	border-color: #178D5D;
+	border-radius: 10px;
 }
 
 #get-trekking-btn {
-	border-radius: 20px;
+	border-radius: 30px;
+	font-size: 150%;
+	padding-left: 30px;
+	padding-right: 30px;
 }
-
-
 
 
 
